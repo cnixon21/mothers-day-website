@@ -25,7 +25,18 @@
             font-family: 'Fredoka One', cursive;
             color: red;
             font-size: 1.5rem; /* 24px */
-            margin-bottom: 2rem; /* 32px */
+            margin-bottom: 1rem; /* 16px */
+        }
+        #playButton {
+            display: inline-block;
+            margin: 1rem auto 2rem; /* 16px 0 32px */
+            padding: 0.75rem 1.5rem; /* 12px 24px */
+            font-size: 1.25rem; /* 20px */
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            border-radius: 0.625rem; /* 10px */
+            cursor: pointer;
         }
         #photos-container {
             margin-top: 2rem; /* 32px */
@@ -134,7 +145,7 @@
         <source src="music/22 So High School.m4a" type="audio/mp4">
         Your browser does not support the audio element.
     </audio>
-    <button id="playButton" style="display: none;">Play Music</button>
+    <button id="playButton">Play Music</button>
     <div id="photos-container">
         <div id="photos">
             <!-- Images are duplicated for a seamless carousel effect -->
