@@ -11,13 +11,9 @@
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #ffe6f2;
-            position: relative;
             margin: 0;
             padding: 0;
-            min-height: 100vh; /* Ensure the body takes full height */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; /* Space out elements */
+            position: relative;
         }
         h1 {
             font-family: 'Fredoka One', cursive;
@@ -30,17 +26,6 @@
             color: red;
             font-size: 1.5rem; /* 24px */
             margin-bottom: 1.5rem; /* 24px */
-        }
-        #playButton {
-            display: inline-block;
-            margin: 1.5rem auto; /* 24px 0 */
-            padding: 0.75rem 1.5rem; /* 12px 24px */
-            font-size: 1.25rem; /* 20px */
-            background-color: #ff69b4;
-            color: #fff;
-            border: none;
-            border-radius: 0.625rem; /* 10px */
-            cursor: pointer;
         }
         #photos-container {
             margin-top: 2rem; /* 32px */
@@ -139,11 +124,20 @@
                 padding: 0.625rem 1.25rem; /* 10px 20px */
                 font-size: 1rem; /* 16px */
             }
-            #playButton {
-                font-size: 1rem; /* 16px */
-                padding: 0.5rem 1rem; /* 8px 16px */
-                margin: 1rem auto; /* 16px 0 */
-            }
+        }
+        #playPauseButton {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -205,7 +199,7 @@
         <button id="startOver">Start Over?</button>
     </div>
 
-    <button id="playButton">Play Music</button>
+    <button id="playPauseButton">▶️</button>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -300,25 +294,30 @@
 
             // Handle autoplay restrictions
             var audio = document.getElementById('backgroundMusic');
-            var playButton = document.getElementById('playButton');
-            playButton.addEventListener('click', function() {
-                audio.muted = false;
-                audio.play();
-            });
-            audio.addEventListener('play', function() {
-                playButton.style.display = 'none';
+            var playPauseButton = document.getElementById('playPauseButton');
+            var isPlaying = false;
+
+            playPauseButton.addEventListener('click', function() {
+                if (isPlaying) {
+                    audio.pause();
+                    playPauseButton.textContent = '▶️';
+                } else {
+                    audio.muted = false;
+                    audio.play();
+                    playPauseButton.textContent = '⏸️';
+                }
+                isPlaying = !isPlaying;
             });
 
-            // Check if autoplay is allowed
-            var playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    // Automatic playback started!
-                }).catch(function(error) {
-                    // Show play button if autoplay is blocked
-                    playButton.style.display = 'block';
-                });
-            }
+            audio.addEventListener('play', function() {
+                isPlaying = true;
+                playPauseButton.textContent = '⏸️';
+            });
+
+            audio.addEventListener('pause', function() {
+                isPlaying = false;
+                playPauseButton.textContent = '▶️';
+            });
         });
     </script>
 </body>
